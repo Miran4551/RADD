@@ -1,151 +1,540 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#6255f5">
-<title>رَدّ | لا تجعل فرصة التواصل تختفي</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
-:root{--bg:#f4f6fa;--surface:#fff;--ink:#20243a;--muted:#73788d;--line:#e5e8f0;--p:#6355f5;--p2:#8d82ff;--soft:#efedff;--good:#158463;--goodBg:#eaf9f3;--warn:#c98522;--warnBg:#fff6e6;--danger:#cf625a;--shadow:0 16px 50px rgba(43,32,108,.08)}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:Cairo,system-ui,sans-serif;background:linear-gradient(180deg,#f8f9fc,#f3f5f9);color:var(--ink)}
-button{font:inherit;cursor:pointer}
-button:focus-visible{outline:3px solid #8d82ff66;outline-offset:3px}
-.header{height:74px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:40}
-.brand{display:flex;align-items:center;gap:11px}.brand-mark{width:44px;height:44px;border-radius:15px;background:linear-gradient(145deg,var(--p),var(--p2));color:#fff;display:grid;place-items:center;font-size:21px;box-shadow:0 8px 24px #6355f533}.brand-name{font-weight:800;font-size:20px}.brand-sub{font-size:9px;color:#979aa8}
-.tabs{display:flex;background:#eff0f6;padding:4px;border-radius:13px;gap:4px}.tab{border:0;background:transparent;color:#777b8d;border-radius:10px;padding:8px 15px;font-size:11px}.tab.active{background:#fff;color:var(--p);box-shadow:0 2px 10px #2221}
-.container{max-width:1160px;margin:auto;padding:30px 20px 80px}
-.topline{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.eyebrow{color:var(--p);font-size:11px;font-weight:800}.title{margin:4px 0 0;font-size:29px}.sub{margin:4px 0 0;color:var(--muted);font-size:11px}.reset{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:#666b7d;font-size:10px}
-.story{margin-top:20px;background:linear-gradient(110deg,#6255f5,#7b6fff);border-radius:24px;padding:24px;color:#fff;display:grid;grid-template-columns:1.55fr .75fr;gap:20px;box-shadow:0 18px 50px #6355f528}
-.story h2{font-size:30px;line-height:1.45;margin:7px 0}.story p{margin:0;color:#eeeefe;font-size:12px;line-height:2;max-width:710px}.story .quote{margin-top:15px;background:#ffffff18;border:1px solid #ffffff24;border-radius:15px;padding:11px 13px;font-size:12px}
-.story-side{background:#ffffff16;border:1px solid #ffffff25;border-radius:20px;padding:17px;display:flex;flex-direction:column;justify-content:center}.story-side .mini{display:flex;gap:10px;align-items:center}.story-side .mini-icon{width:42px;height:42px;border-radius:14px;background:#ffffff20;display:grid;place-items:center;font-size:20px}.story-side b{font-size:13px}.story-side small{display:block;font-size:9px;color:#e6e3ff;margin-top:2px}
-.path{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow)}.path-title{font-size:11px;font-weight:800;margin-bottom:10px}.path-row{display:flex;align-items:center;gap:7px;overflow:auto}.path-step{white-space:nowrap;display:flex;align-items:center;gap:7px;font-size:9px;color:#6d7185}.path-n{width:23px;height:23px;border-radius:8px;background:var(--soft);color:var(--p);display:grid;place-items:center;font-weight:800}.path-arr{min-width:18px;height:1px;background:#dfe1ea}
-.focus{margin-top:18px;background:#fff;border:2px solid #dcd8ff;border-radius:23px;padding:20px;box-shadow:0 18px 50px #5146bd10;position:relative;overflow:hidden}
-.focus::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--p),#a89fff)}
-.focus-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.focus-head h3{margin:0;font-size:16px}.priority{background:var(--warnBg);color:var(--warn);border-radius:20px;padding:5px 9px;font-size:9px;font-weight:700}
-.focus-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:18px;margin-top:15px}.person{background:#f8f8fc;border-radius:18px;padding:18px;display:flex;gap:13px;align-items:center}.avatar{width:55px;height:55px;border-radius:17px;background:linear-gradient(145deg,#efedff,#e5e1ff);display:grid;place-items:center;font-size:23px}.person b{font-size:15px}.person small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.request{background:var(--soft);border-radius:18px;padding:18px}.request-label{font-size:9px;color:var(--p);font-weight:800}.request p{font-size:18px;font-weight:700;margin:6px 0 0;line-height:1.6}.request small{display:block;color:#777b8d;font-size:9px;margin-top:6px}
-.focus-actions{display:flex;gap:8px;margin-top:15px}.primary{flex:1;border:0;background:var(--p);color:#fff;border-radius:13px;padding:12px;font-size:12px;font-weight:800}.secondary{border:0;background:#f1f2f6;color:#666a7b;border-radius:13px;padding:12px 17px;font-size:11px}
-.why{margin-top:12px;background:#fff9ef;border:1px solid #f5e6c5;color:#77521b;border-radius:14px;padding:10px 12px;font-size:10px;line-height:1.8}.why b{font-size:10px}
-.section{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px}.section h3{margin:0;font-size:17px}.section-head p{margin:3px 0 0;color:var(--muted);font-size:10px}.queue{display:grid;gap:8px}.queue-item{width:100%;border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px;display:flex;align-items:center;gap:11px;text-align:right;transition:.15s}.queue-item:hover{border-color:#d4cffc;transform:translateY(-1px)}.qicon{width:43px;height:43px;border-radius:14px;background:#f1efff;display:grid;place-items:center;font-size:19px}.qbody{flex:1}.qbody b{font-size:12px}.qbody p{margin:2px 0;color:#575b6f;font-size:10px}.qmeta{font-size:8px;color:#999cab}.qstatus{font-size:8px;padding:4px 7px;border-radius:20px}.qstatus.ready{background:var(--warnBg);color:var(--warn)}.qstatus.defer{background:var(--soft);color:var(--p)}
-.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.metric{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px}.metric strong{display:block;font-size:24px}.metric span{font-size:9px;color:var(--muted)}
-.privacy{margin-top:12px;background:var(--goodBg);border:1px solid #d5eee4;color:#17694e;border-radius:15px;padding:11px 13px;font-size:9px;line-height:1.8}
-.child-shell{max-width:830px;margin:0 auto}.child-card{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow)}.child-intro{display:flex;align-items:center;gap:14px}.child-intro h2{margin:2px 0 0;font-size:26px}.child-intro p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.8}
-.scenario{margin-top:21px;background:#faf9ff;border:1px solid #e3dfff;border-radius:20px;padding:18px}.scenario-title{font-size:10px;font-weight:800;color:#6d7190}.bubble{margin-top:10px;background:#fff;border-radius:17px;padding:14px;font-size:16px;font-weight:800;box-shadow:0 8px 22px #5b50b40b;position:relative}.bubble::after{content:"";position:absolute;right:20px;bottom:-7px;width:14px;height:14px;background:#fff;transform:rotate(45deg)}.bubble small{display:block;color:var(--muted);font-size:9px;margin-top:5px;font-weight:400}
-.save-action{width:100%;margin-top:16px;border:0;background:linear-gradient(145deg,var(--p),var(--p2));color:#fff;border-radius:15px;padding:14px;font-size:12px;font-weight:800;display:flex;justify-content:space-between;align-items:center}
-.handoff{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-top:18px}.handoff-box{background:#f7f7fa;border:1px solid var(--line);border-radius:15px;padding:12px;text-align:center}.handoff-box b{display:block;font-size:10px}.handoff-box small{display:block;color:var(--muted);font-size:8px;margin-top:3px}.handoff-arrow{width:34px;height:34px;border-radius:50%;background:var(--soft);color:var(--p);display:grid;place-items:center;font-weight:800}
-.child-history{margin-top:17px}.history-row{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:15px;padding:11px;margin-top:7px;background:#fff}.dot{width:10px;height:10px;border-radius:50%;background:var(--warn);flex:0 0 10px}.done .dot{background:var(--good)}.history-row b{font-size:10px}.history-row small{display:block;color:var(--muted);font-size:8px;margin-top:2px}
-.overlay{position:fixed;inset:0;background:#1a17386f;backdrop-filter:blur(6px);display:grid;place-items:center;padding:18px;z-index:60}.modal{width:min(510px,100%);background:#fff;border-radius:24px;padding:26px;position:relative;box-shadow:0 30px 100px #17132d44}.close{position:absolute;left:13px;top:13px;width:31px;height:31px;border:0;border-radius:9px;background:#f3f3f6;color:#777}.modal-icon{width:56px;height:56px;border-radius:18px;background:var(--soft);display:grid;place-items:center;font-size:25px}.modal h2{font-size:20px;margin:11px 0 4px}.modal p{font-size:11px;color:var(--muted);line-height:1.9}.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.choice-grid button{background:#f8f8fb;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:right}.choice-grid button:hover{background:var(--soft);border-color:#d1cbff}.choice-grid span{font-size:20px}.choice-grid b{display:block;font-size:10px;margin-top:4px}.confirm{background:#f7f7fa;border-radius:15px;padding:13px;margin:13px 0;font-size:11px}.confirm small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#20243a;color:#fff;border-radius:12px;padding:10px 14px;font-size:10px;z-index:100;box-shadow:0 10px 35px #12122344}.hidden{display:none!important}
-@media(max-width:850px){.story,.focus-grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.handoff{grid-template-columns:1fr}.handoff-arrow{margin:auto;transform:rotate(90deg)}}
-@media(max-width:560px){.header{padding:0 12px}.brand-sub{display:none}.tab{padding:7px 9px}.container{padding:24px 12px 60px}.story h2{font-size:27px}.title{font-size:25px}.focus-grid{gap:10px}.focus-actions{flex-direction:column}.secondary{width:100%}.choice-grid{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RADD | رَدّ — فيديو Pitch سينمائي (عرض التحكيم الرسمي)</title>
+  <!-- خطوط عربية حديثة معتمدة (Cairo & IBM Plex Sans Arabic) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<header class="header">
-  <div class="brand"><div class="brand-mark">♥</div><div><div class="brand-name">رَدّ</div><div class="brand-sub">نظام لاستعادة فرص التواصل الأسري</div></div></div>
-  <div class="tabs"><button class="tab active" id="parentTab">الوالد</button><button class="tab" id="childTab">الطفل</button></div>
-</header>
-<main id="app"></main>
-<div id="overlay"></div><div id="toast" class="toast hidden"></div>
-<script>
-(function(){
-  var TYPES={
-    SHOW:{label:"أريد أن أريك شيئًا",icon:"👀",priority:72,reason:"مشاركة تحتاج حضورًا وانتباهًا"},
-    TALK:{label:"أريد أن أتحدث معك",icon:"💬",priority:90,reason:"محاولة حوار مباشرة"},
-    HELP:{label:"أحتاج مساعدتك",icon:"🤝",priority:98,reason:"طلب مساعدة — أعلى أولوية"},
-    SHARE:{label:"أريد أن أشاركك شيئًا",icon:"✨",priority:70,reason:"مشاركة يمكن العودة إليها"}
-  };
-  var seed=[
-    {id:"s1",from:"سارة",type:"HELP",status:"READY",created:Date.now()-4*60000,priority:98},
-    {id:"s2",from:"محمد",type:"SHOW",status:"DEFERRED",created:Date.now()-9*60000,priority:72},
-    {id:"s3",from:"محمد",type:"TALK",status:"RECOVERED",created:Date.now()-55*60000,recovered:Date.now()-35*60000,priority:90}
-  ];
-  var moments;
-  try{moments=JSON.parse(localStorage.getItem("radd-demo-v4"))||seed.map(function(x){return Object.assign({},x);});}catch(e){moments=seed.map(function(x){return Object.assign({},x);});}
-  var role="parent";
-  var app=document.getElementById("app"),overlay=document.getElementById("overlay"),toastEl=document.getElementById("toast");
-  function persist(){try{localStorage.setItem("radd-demo-v4",JSON.stringify(moments));}catch(e){}}
-  function ago(t){var m=Math.max(0,Math.round((Date.now()-t)/60000));return m<1?"الآن":"منذ "+m+" دقيقة";}
-  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
-  function setTabs(){document.getElementById("parentTab").className="tab "+(role==="parent"?"active":"");document.getElementById("childTab").className="tab "+(role==="child"?"active":"");}
-  function toast(msg){toastEl.textContent=msg;toastEl.classList.remove("hidden");setTimeout(function(){toastEl.classList.add("hidden")},2200);}
-  function render(){setTabs();role==="parent"?renderParent():renderChild();}
-  function path(){return '<div class="path"><div class="path-title">رحلة رَدّ</div><div class="path-row"><div class="path-step"><span class="path-n">١</span>محاولة تواصل</div><div class="path-arr"></div><div class="path-step"><span class="path-n">٢</span>تعذر الرد</div><div class="path-arr"></div><div class="path-step"><span class="path-n">٣</span>حفظ الفرصة</div><div class="path-arr"></div><div class="path-step"><span class="path-n">٤</span>العودة</div><div class="path-arr"></div><div class="path-step"><span class="path-n">٥</span>استعادة التفاعل</div></div></div>';}
-  function renderParent(){
-    var active=moments.filter(function(m){return m.status!=="RECOVERED";}).sort(function(a,b){return b.priority-a.priority;});
-    var rec=moments.filter(function(m){return m.status==="RECOVERED";});
-    var focus=active[0];
-    var firr=moments.length?Math.round(rec.length/moments.length*100):0;
-    var lat=rec.length?Math.max(0,Math.round(rec.reduce(function(s,m){return s+(m.recovered-m.created)/60000;},0)/rec.length)):0;
-    var focusHtml=focus?'<section class="focus"><div class="focus-head"><div><h3>ابدأ بهذه الفرصة الآن</h3><div style="font-size:9px;color:var(--muted);margin-top:3px">هذه أعلى فرصة أولوية لدى الأسرة</div></div><span class="priority">أولوية '+focus.priority+'</span></div>'+
-      '<div class="focus-grid"><div class="person"><div class="avatar">'+(focus.from==="سارة"?"👧":"👦")+'</div><div><b>'+esc(focus.from)+'</b><small>ينتظر العودة منك '+ago(focus.created)+'</small></div></div>'+
-      '<div class="request"><div class="request-label">ما الذي يحتاجه؟</div><p>'+TYPES[focus.type].icon+' '+TYPES[focus.type].label+'</p><small>لماذا الآن؟ '+TYPES[focus.type].reason+'</small></div></div>'+
-      '<div class="focus-actions"><button class="primary" id="focusRecover">♥ أعد التفاعل الآن</button><button class="secondary" id="focusLater">أعدها لاحقًا</button></div>'+
-      '<div class="why"><b>المغزى:</b> لا يطلب منك رَدّ تغيير يومك؛ فقط يساعدك ألا تنسى الشخص الذي طلب تواصلك.</div></section>':
-      '<section class="focus"><div class="focus-head"><div><h3>لا توجد فرصة معلّقة</h3><div style="font-size:9px;color:var(--muted);margin-top:3px">يمكنك إنشاء تجربة جديدة من وضع الطفل.</div></div></div></section>';
-    app.innerHTML='<div class="container"><div class="topline"><div><div class="eyebrow">التجربة الحية</div><div class="title">لوحة الوالد</div><div class="sub">هنا لا ترى «تنبيهات» فقط؛ ترى تفاعلًا ينتظر عودتك.</div></div><button class="reset" id="resetBtn">↻ إعادة التجربة</button></div>'+
-      '<section class="story"><div><div class="eyebrow" style="color:#efeaff">جوهر رَدّ</div><h2>لا نمنع كل مقاطعة.<br>نمنع <span style="color:#d7d2ff">ضياع التفاعل المهم.</span></h2><p>عندما لا تستطيع أن تكون حاضرًا الآن، يحفظ رَدّ فرصة التواصل ويعيدها لك عندما يصبح لديك وقت للعودة.</p><div class="quote">مثال: <b>«بابا.. شوف!»</b> ← «بعد شوي يا حبيبي» ← <b>رَدّ يحفظ فرصة العودة.</b></div></div>'+
-      '<div class="story-side"><div class="mini"><div class="mini-icon">⏱</div><div><b>لا تحتاج وقتًا إضافيًا</b><small>تحتاج فقط أن تتذكر العودة.</small></div></div><div style="height:1px;background:#fff2;margin:14px 0"></div><div class="mini"><div class="mini-icon">♥</div><div><b>نقيس ما عاد فعلًا</b><small>لا نقيس وقت الشاشة ولا نحاسب الأسرة.</small></div></div></div></section>'+
-      path()+focusHtml+
-      '<section class="section"><div class="section-head"><div><h3>باقي فرص التواصل</h3><p>المعلّقة محفوظة، وتبقى حتى تحصل على فرصة للعودة.</p></div></div><div class="queue">'+(active.slice(1).map(queueItem).join("")||(active.length?'<div class="privacy">كل الفرص الحالية عُرضت في «ابدأ بهذه الفرصة الآن».</div>':'<div class="empty">لا توجد فرص تواصل أخرى.</div>'))+'</div></section>'+
-      '<section class="metrics"><div class="metric"><strong>'+firr+'%</strong><span>معدل استعادة التفاعل</span></div><div class="metric"><strong>'+lat+' د</strong><span>متوسط زمن العودة</span></div><div class="metric"><strong>'+rec.length+'</strong><span>تفاعلات تمت استعادتها</span></div></section>'+
-      '<div class="privacy">🛡️ <b>خصوصية أولًا:</b>&nbsp; رَدّ لا يحتاج ميكروفونًا دائمًا، ولا كاميرا، ولا مراقبة للشاشة، ولا قراءة للمحادثات الخاصة.</div></div>';
-    if(focus){document.getElementById("focusRecover").onclick=function(){recover(focus.id);};document.getElementById("focusLater").onclick=function(){toast("تم إبقاء فرصة التواصل للعودة لاحقًا");};}
-    document.getElementById("resetBtn").onclick=reset;
-    Array.prototype.forEach.call(document.querySelectorAll(".queue-item"),function(b){b.onclick=function(){openMoment(b.getAttribute("data-id"));};});
-  }
-  function queueItem(m){var t=TYPES[m.type];return '<button class="queue-item" data-id="'+esc(m.id)+'"><div class="qicon">'+t.icon+'</div><div class="qbody"><b>'+esc(m.from)+'</b><p>'+t.label+'</p><span class="qmeta">'+ago(m.created)+'</span></div><span class="qstatus '+(m.status==="READY"?"ready":"defer")+'">'+(m.status==="READY"?"جاهزة للعودة":"مؤجلة")+'</span><span class="chev">‹</span></button>'; }
-  function renderChild(){
-    var mine=moments.filter(function(m){return m.from==="محمد";}).sort(function(a,b){return b.created-a.created;});
-    var pending=mine.filter(function(m){return m.status!=="RECOVERED";}).length;
-    app.innerHTML='<div class="container"><div class="child-shell"><div class="topline"><div><div class="eyebrow">التجربة الحية</div><div class="title">تجربة الطفل</div><div class="sub">ابدأ من هنا، ثم شاهد ماذا يحدث لفرصة التواصل.</div></div></div>'+path()+
-      '<div class="child-card"><div class="child-intro"><div class="avatar">م</div><div><div class="eyebrow">محمد</div><h2>عندي شيء أبي أقوله</h2><p>إذا كان بابا أو ماما مشغولين، ما أبي أنسى وأنا أنتظر.</p></div></div>'+
-      '<div class="scenario"><div class="scenario-title">الموقف</div><div class="bubble">«بابا.. شوف رسمتي!»<small>الأب مشغول الآن ولا يستطيع الرد.</small></div><button class="save-action" id="saveChance"><span>احفظ فرصة التواصل</span><span>←</span></button></div>'+
-      '<div class="handoff"><div class="handoff-box"><b>الطفل</b><small>يحفظ فرصة التواصل</small></div><div class="handoff-arrow">←</div><div class="handoff-box"><b>الوالد</b><small>يراها عند عودته</small></div></div>'+
-      '<div class="child-history"><div class="section-head"><div><h3>ما الذي حدث لفرصي؟</h3><p>'+pending+' فرصة ما زالت تنتظر العودة.</p></div></div>'+
-      (mine.length?mine.map(historyRow).join(""):'<div class="empty">لم تحفظ أي فرصة بعد.</div>')+
-      '</div><div class="privacy">🛡️ أنت تختار بنفسك ماذا تحفظ. لا نحتاج تسجيل صوتك أو تصويرك.</div></div></div></div>';
-    document.getElementById("saveChance").onclick=capture;
-  }
-  function historyRow(m){var t=TYPES[m.type],done=m.status==="RECOVERED";return '<div class="history-row '+(done?"done":"")+'"><div class="dot"></div><div><b>'+t.icon+' '+t.label+'</b><small>'+(done?"✓ تم استعادة التفاعل":"بانتظار عودة الوالد")+' • '+ago(m.created)+'</small></div></div>'; }
-  function capture(){
-    overlay.innerHTML='<div class="overlay"><div class="modal"><button class="close" id="closeChoices">×</button><div class="modal-icon">♥</div><div class="eyebrow" style="margin-top:12px">حفظ فرصة تواصل</div><h2>ماذا تريد أن تقول؟</h2><p>اختر نوع التفاعل فقط. رَدّ لا يسجل صوتك أو صورتك.</p><div class="choice-grid">'+Object.keys(TYPES).map(function(k){var t=TYPES[k];return '<button data-choice="'+k+'"><span>'+t.icon+'</span><b>'+t.label+'</b></button>';}).join("")+'</div></div></div>';
-    document.getElementById("closeChoices").onclick=closeModal;
-    Array.prototype.forEach.call(document.querySelectorAll("[data-choice]"),function(b){b.onclick=function(){confirmChoice(b.getAttribute("data-choice"));};});
-  }
-  function confirmChoice(type){
-    var t=TYPES[type];
-    overlay.innerHTML='<div class="overlay"><div class="modal"><button class="close" id="closeConfirm">×</button><div class="eyebrow">تأكيد</div><h2>هذه فرصة تواصل مهمة</h2><p>سيتم حفظها ليعود إليها الوالد عندما يصبح متاحًا.</p><div class="confirm"><b>'+t.icon+' '+t.label+'</b><small>الأولوية المقترحة: '+t.priority+' — '+t.reason+'</small></div><button class="action-primary" id="saveNow">حفظ وإرسال للوالد</button><button class="action-secondary" id="back">رجوع</button></div></div>';
-    document.getElementById("closeConfirm").onclick=closeModal;document.getElementById("back").onclick=capture;document.getElementById("saveNow").onclick=function(){addMoment(type);};
-  }
-  function addMoment(type){
-    var t=TYPES[type];
-    moments=moments.map(function(m){return Object.assign({},m,{_justCreated:false});});
-    moments.push({id:"m"+Date.now(),from:"محمد",type:type,status:"READY",created:Date.now(),priority:t.priority,_justCreated:true});
-    persist();closeModal();toast("❤️ تم حفظ فرصة التواصل لدى الوالد");render();
-  }
-  function openMoment(id){
-    var m=moments.filter(function(x){return x.id===id;})[0];if(!m)return;
-    var t=TYPES[m.type];
-    overlay.innerHTML='<div class="overlay"><div class="modal"><button class="close" id="closeMoment">×</button><div class="modal-icon">'+t.icon+'</div><div class="eyebrow" style="margin-top:12px">فرصة تواصل '+(m.status==="READY"?"جاهزة":"مؤجلة")+'</div><h2>'+esc(m.from)+' — '+t.label+'</h2><p>هذه ليست مهمة جديدة. هذه فرصة حوار لم تحصل على رد في وقتها.</p><div class="confirm"><b>لماذا تظهر الآن؟</b><small>'+t.reason+' — أضيفت '+ago(m.created)+'</small></div><button class="action-primary" id="recover">♥ أعد التفاعل الآن</button><button class="action-secondary" id="later">ليس الآن</button></div></div>';
-    document.getElementById("closeMoment").onclick=closeModal;document.getElementById("later").onclick=closeModal;document.getElementById("recover").onclick=function(){recover(id);};
-  }
-  function recover(id){
-    var m=moments.filter(function(x){return x.id===id;})[0];if(!m)return;
-    var now=Date.now();
-    moments=moments.map(function(x){return x.id===id?Object.assign({},x,{status:"RECOVERED",recovered:now,_justCreated:false}):x;});
-    persist();
-    overlay.innerHTML='<div class="overlay"><div class="modal"><div class="modal-icon">♥</div><div class="eyebrow" style="margin-top:12px">استعادة مكتملة</div><h2>رجعت اللحظة ❤️</h2><p>الآن تحولت فرصة التواصل من شيء مؤجل إلى تفاعل تمت استعادته.</p><div class="recovered-modal"><b>'+esc(m.from)+' — '+TYPES[m.type].label+'</b><br>زمن الاستعادة: '+Math.max(0,Math.round((now-m.created)/60000))+' دقيقة<br>الحالة: تمت الاستعادة</div><button class="action-primary" id="done">العودة إلى لوحة الوالد</button></div></div>';
-    var st=document.createElement("style");st.textContent=".recovered-modal{background:var(--goodBg);border:1px solid #d5eee4;border-radius:16px;padding:14px;margin:13px 0;color:#17694e;font-size:10px;line-height:1.9}.action-primary{width:100%;border:0;background:var(--p);color:#fff;border-radius:12px;padding:12px;font-size:12px;font-weight:800}.action-secondary{width:100%;margin-top:7px;border:0;background:#f3f3f6;color:#66697a;border-radius:12px;padding:11px;font-size:11px}";
-    document.head.appendChild(st);
-    document.getElementById("done").onclick=function(){closeModal();role="parent";render();toast("تم تسجيل استعادة التفاعل ❤️");};
-  }
-  function reset(){localStorage.removeItem("radd-demo-v4");moments=seed.map(function(x){return Object.assign({},x);});persist();role="parent";render();toast("تمت إعادة السيناريو");}
-  function closeModal(){overlay.innerHTML="";}
-  document.getElementById("parentTab").onclick=function(){role="parent";render();};
-  document.getElementById("childTab").onclick=function(){role="child";render();};
-  render();
-})();
-</script>
+<body class="cinema-body">
+
+  <!-- Ambient Cinema Atmosphere -->
+  <div class="ambient-glow" id="ambientGlow"></div>
+
+  <!-- Minimal Cinema Top Bar -->
+  <header class="pitch-header">
+    <div class="brand-group">
+      <div class="brand-badge-icon">
+        <svg viewBox="0 0 36 36" width="22" height="22">
+          <circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/>
+          <path d="M13 18 C13 13, 23 13, 23 18 C23 23, 15 23, 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <polyline points="14,17 15,21 19,19" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="23" cy="18" r="2.2" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="brand-meta">
+        <h1 class="brand-name">RADD | رَدّ</h1>
+        <span class="brand-subtitle">نظام استعادة فرص التواصل الأسري</span>
+      </div>
+    </div>
+
+    <div class="pitch-status-tags">
+      <span class="status-pill live-pill"><span class="live-dot"></span> 16:9 Pitch Film</span>
+      <span class="status-pill">المدة: 75 ثانية</span>
+      <span class="status-pill jury-tag">لجنة التحكيم الرسمية</span>
+    </div>
+
+    <div class="header-right-tools">
+      <button class="btn-ghost" id="openDocsBtn" title="وثيقة الإنتاج الفني للتحكيم">
+        <span class="btn-icon">📋</span> ملف المشروع
+      </button>
+      <button class="btn-primary" id="fullscreenBtn" title="ملء الشاشة 16:9">
+        <span class="btn-icon">⛶</span> ملء الشاشة
+      </button>
+    </div>
+  </header>
+
+  <!-- Main 16:9 Cinema Viewport -->
+  <main class="cinema-stage-wrapper">
+    <div class="cinema-frame" id="cinemaFrame">
+      
+      <!-- Film Vignette & Subtle Cinema Texture -->
+      <div class="film-vignette"></div>
+
+      <!-- =================================================================
+           المشهد 1 (00:00 — 00:11): البداية الإنسانية
+           الصوت: بابا شوف رسمتي -> بعد شوي يا حبيبي -> في زحام اليوم
+           ================================================================= -->
+      <section class="scene-layer" id="scene1" data-scene="1">
+        <div class="scene-bg-image slow-kenburns" style="background-image: url('assets/images/scene1.jpg');"></div>
+        <div class="vignette-overlay"></div>
+
+        <div class="scene-inner space-between">
+          <!-- Dialogue Cues (Appear synchronized with audio) -->
+          <div class="dialogue-flow">
+            <div class="dialogue-chip child-chip animate-fade-in" id="chipChild1">
+              <span class="chip-speaker">محمد:</span>
+              <span class="chip-text">«بابا.. شوف رسمتي!»</span>
+            </div>
+
+            <div class="dialogue-chip father-chip animate-fade-in" id="chipFather1">
+              <span class="chip-speaker">الأب:</span>
+              <span class="chip-text">«بعد شوي يا حبيبي.»</span>
+            </div>
+          </div>
+
+          <!-- Minimal Punchy On-Screen Title -->
+          <div class="cinematic-caption-box animate-fade-up">
+            <p class="caption-lead">بعض اللحظات لا تضيع لأننا لا نهتم…</p>
+            <h2 class="caption-punch">بل لأننا لم نستطع الرد في وقتها.</h2>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           المشهد 2 (00:11 — 00:22): جوهر المشكلة
+           الصوت: المشكلة الحقيقية.mp3
+           ================================================================= -->
+      <section class="scene-layer" id="scene2" data-scene="2">
+        <div class="scene-bg-image slow-kenburns" style="background-image: url('assets/images/scene2.jpg');"></div>
+        <div class="vignette-overlay dark-overlay"></div>
+
+        <div class="scene-inner flex-center">
+          <div class="cinematic-caption-box center-caption animate-fade-up">
+            <span class="caption-tag">المشكلة السلوكية الحقيقية</span>
+            <p class="caption-lead">المشكلة ليست مجرد شاشة هاتف.</p>
+            <h2 class="caption-punch">ماذا يحدث للتفاعل بعد أن يتعذر الرد؟</h2>
+            <div class="caption-subline">تتلاشى الرغبة في الحديث.. وتمر اللحظة دون أن تعود.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           المشهد 3 (00:22 — 00:34): ظهور واجهة RADD — فرصة تواصل
+           انتقال إلى واجهة RADD الحقيقية (RTL)
+           ================================================================= -->
+      <section class="scene-layer" id="scene3" data-scene="3">
+        <div class="scene-bg-gradient"></div>
+
+        <div class="scene-inner split-grid">
+          <!-- Text Column -->
+          <div class="text-content-side animate-fade-right">
+            <span class="concept-badge">ابتكار اجتماعي هادئ</span>
+            <h2 class="section-hero-title">فرصة تواصل</h2>
+            <p class="section-hero-desc">
+              بدلاً من ضياع محاولة الطفل في زحام المشاغل، يحفظ النظام نية التواصل الصادقة ليعود إليها الوالد بوعي واهتمام.
+            </p>
+            <div class="hero-quote-bar">
+              «لا نقطع انشغالك الحرج الآن.. بل نحمي حق الأسرة في وقت لاحق.»
+            </div>
+          </div>
+
+          <!-- Real RTL Smartphone UI Mockup -->
+          <div class="phone-showcase-side animate-slide-up">
+            <div class="device-mockup">
+              <div class="device-dynamic-island"></div>
+              
+              <div class="device-screen-rtl">
+                <div class="device-status-bar">
+                  <span class="status-time">٨:٤٢ م</span>
+                  <span class="status-app-name">رَدّ • RADD</span>
+                  <span class="status-icons">📶 🔋</span>
+                </div>
+
+                <div class="app-interface-content">
+                  <!-- The Opportunity Card -->
+                  <div class="opportunity-card-ui animate-pulse-soft">
+                    <div class="opp-badge">✨ محاولة تواصل واردة</div>
+                    <div class="opp-person">
+                      <div class="person-avatar">👦🏻</div>
+                      <div class="person-details">
+                        <div class="person-name">محمد</div>
+                        <div class="person-action">«يريد أن يريك شيئًا»</div>
+                      </div>
+                    </div>
+                    <div class="opp-context-hint">
+                      <span>🎨 يحمل ورقة رسم بيده</span>
+                    </div>
+
+                    <button class="btn-radd-action" id="btnSaveOpportunity">
+                      <span class="action-icon">💾</span>
+                      <span>حفظ فرصة التواصل</span>
+                    </button>
+                  </div>
+
+                  <div class="privacy-subtext">
+                    🔒 لا تسجيل صوت • لا كاميرا • لا مراقبة للشاشة
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           المشهد 4 (00:34 — 00:46): حفظ الفرصة دون مراقبة
+           الصوت: لا يراقب الاسرة.mp3
+           ================================================================= -->
+      <section class="scene-layer" id="scene4" data-scene="4">
+        <div class="scene-bg-gradient dark-purple-gradient"></div>
+
+        <div class="scene-inner split-grid reverse-grid">
+          <!-- Privacy & Structured Return Architecture -->
+          <div class="metadata-cards-side animate-fade-left">
+            <div class="meta-row-card">
+              <span class="meta-title">نوع التفاعل</span>
+              <strong class="meta-val">مشاركة إنجاز ورسمة 🎨</strong>
+              <span class="meta-note">تدوين نية ناعم بدون تنصت</span>
+            </div>
+
+            <div class="meta-row-card">
+              <span class="meta-title">الأولوية</span>
+              <strong class="meta-val highlight-gold">عائلية دافئة</strong>
+              <span class="meta-note">تعزيز ثقة الطفل بنفسه</span>
+            </div>
+
+            <div class="meta-row-card">
+              <span class="meta-title">وقت العودة المناسب</span>
+              <strong class="meta-val">بعد ٢٠ دقيقة (عند إنهاء المكالمة)</strong>
+              <span class="meta-note">مرونة تامة للوالد بدون ضغط</span>
+            </div>
+
+            <!-- Soft Notification Preview -->
+            <div class="soft-notification-box animate-float-gentle">
+              <div class="notif-top">
+                <span class="notif-tag">تذكير رَدّ الهادئ</span>
+                <span class="notif-now">الآن</span>
+              </div>
+              <div class="notif-text">
+                <span class="heart-icon">❤️</span>
+                <strong>«محمد كان يريد أن يريك شيئًا»</strong>
+              </div>
+              <div class="notif-footnote">تذكير رقيق ووحيد — بدون رنين مزعج أو تكديس إشعارات</div>
+            </div>
+          </div>
+
+          <!-- Plain Statement of Safety -->
+          <div class="text-content-side animate-fade-right">
+            <div class="safety-seal">
+              <span class="seal-icon">🛡️</span>
+              <span>ميثاق الأمان والخصوصية</span>
+            </div>
+            <h2 class="section-hero-title">رَدّ لا يراقب الأسرة</h2>
+            <p class="section-hero-desc">
+              لا نلتقط صوراً، ولا نسجل أصواتاً، ولا نقرأ رسائل خاصة. النظام يحفظ فقط النية الإنسانية الصادقة ويساعدك على تذكّر العودة إليها.
+            </p>
+
+            <div class="negative-guarantees">
+              <div class="guarantee-item">
+                <span class="cross-icon">✕</span>
+                <span>لا ميكروفون</span>
+              </div>
+              <div class="guarantee-item">
+                <span class="cross-icon">✕</span>
+                <span>لا كاميرا</span>
+              </div>
+              <div class="guarantee-item">
+                <span class="cross-icon">✕</span>
+                <span>لا مراقبة للشاشة</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           المشهد 5 (00:46 — 00:57): استعادة اللحظة
+           الصوت: ورني وش كنت تبي توريني.mp3
+           صورة scene5.jpg
+           ================================================================= -->
+      <section class="scene-layer" id="scene5" data-scene="5">
+        <div class="scene-bg-image slow-kenburns" style="background-image: url('assets/images/scene5.jpg');"></div>
+        <div class="vignette-overlay"></div>
+
+        <div class="scene-inner space-between">
+          <!-- Dialogue Bubble Flow -->
+          <div class="dialogue-flow">
+            <div class="dialogue-chip father-chip restored-chip animate-fade-in" id="chipFather5">
+              <span class="chip-speaker">الأب (يضع الهاتف جانباً باهتمام):</span>
+              <span class="chip-text">«ورني وش كنت تبي توريني!»</span>
+            </div>
+
+            <!-- Child response visually represented (TODO: Audio file to be linked if added) -->
+            <div class="dialogue-chip child-chip animate-fade-in" id="chipChild5" style="margin-top: 10px;">
+              <span class="chip-speaker">محمد (بفخر وابتسامة عريضة):</span>
+              <span class="chip-text">«رسمت بيتنا… وإحنا كلنا مع بعض!»</span>
+            </div>
+          </div>
+
+          <!-- Bottom Caption -->
+          <div class="cinematic-caption-box animate-fade-up">
+            <p class="caption-lead">التفاعل الذي كان معرضًا للضياع…</p>
+            <h2 class="caption-punch text-success">عاد من جديد.</h2>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           المشهد 6 (00:57 — 01:05): القياس الإيجابي ومؤشرات الاستمرارية
+           بيانات تجريبية واضحة للنموذج الأولي — لا ادعاءات ميدانية غير مثبتة
+           ================================================================= -->
+      <section class="scene-layer" id="scene6" data-scene="6">
+        <div class="scene-bg-gradient dark-purple-gradient"></div>
+
+        <div class="scene-inner flex-center">
+          <div class="prototype-metrics-dashboard animate-slide-up">
+            <div class="dashboard-top-bar">
+              <div class="dash-headline">
+                <span class="dash-icon">📊</span>
+                <h3>مؤشرات استمرارية التواصل الأسري</h3>
+              </div>
+              <div class="prototype-label-badge">
+                <span class="proto-dot"></span>
+                <span>بيانات تجريبية للنموذج الأولي • Prototype Demo</span>
+              </div>
+            </div>
+
+            <div class="proto-cards-row">
+              <div class="proto-card">
+                <div class="proto-type-tag">مثال تجريبي</div>
+                <div class="proto-card-title">معدل استعادة التفاعل</div>
+                <div class="proto-metric-visual">
+                  <div class="metric-circle-indicator">
+                    <span class="metric-val-text">مستقر</span>
+                  </div>
+                </div>
+                <div class="proto-card-desc">قياس عودة التفاعل بعد تعذر الرد الفوري</div>
+              </div>
+
+              <div class="proto-card">
+                <div class="proto-type-tag">مثال تجريبي</div>
+                <div class="proto-card-title">زمن الاستعادة</div>
+                <div class="proto-metric-visual">
+                  <div class="metric-time-bar">
+                    <span class="metric-val-text">في نفس اليوم</span>
+                  </div>
+                </div>
+                <div class="proto-card-desc">متوسط وقت إغلاق حلقة التواصل الأسرية</div>
+              </div>
+
+              <div class="proto-card">
+                <div class="proto-type-tag">مثال تجريبي</div>
+                <div class="proto-card-title">فرص تمت استعادتها</div>
+                <div class="proto-metric-visual">
+                  <div class="metric-status-check">
+                    <span class="metric-val-text">لحظات حقيقية</span>
+                  </div>
+                </div>
+                <div class="proto-card-desc">حماية محاولات التواصل من النسيان التام</div>
+              </div>
+            </div>
+
+            <div class="dashboard-core-philosophy">
+              <p>
+                «رَدّ لا يقيس جودة الوالد…<br>
+                <strong>بل يقيس استمرارية التواصل.</strong>»
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           المشهد 7 (01:05 — 01:12): مسار التواصل الأسري الكامل
+           صورة scene7.jpg + مسار RTL حقيقي من اليمين إلى اليسار
+           ================================================================= -->
+      <section class="scene-layer" id="scene7" data-scene="7">
+        <div class="scene-bg-image slow-kenburns" style="background-image: url('assets/images/scene7.jpg');"></div>
+        <div class="vignette-overlay soft-bottom-vignette"></div>
+
+        <div class="scene-inner flex-bottom">
+          <div class="cinematic-pipeline-wrapper animate-fade-up">
+            <div class="pipeline-caption-title">مسار حماية اللحظات الأسرية في «رَدّ»</div>
+            
+            <!-- Strict RTL Pathway: Starts Right -> Goes Left with Leftward Arrows (←) -->
+            <div class="rtl-pipeline-track">
+              <div class="pipe-node n1">
+                <span class="node-seq">١</span>
+                <span class="node-title">محاولة تواصل</span>
+              </div>
+
+              <div class="pipe-arrow-rtl">←</div>
+
+              <div class="pipe-node n2">
+                <span class="node-seq">٢</span>
+                <span class="node-title">تعذر الرد</span>
+              </div>
+
+              <div class="pipe-arrow-rtl">←</div>
+
+              <div class="pipe-node n3 highlight-radd-node">
+                <span class="node-seq">٣</span>
+                <span class="node-title">حفظ فرصة التواصل</span>
+              </div>
+
+              <div class="pipe-arrow-rtl">←</div>
+
+              <div class="pipe-node n4">
+                <span class="node-seq">٤</span>
+                <span class="node-title">العودة</span>
+              </div>
+
+              <div class="pipe-arrow-rtl">←</div>
+
+              <div class="pipe-node n5">
+                <span class="node-seq">٥</span>
+                <span class="node-title">استعادة التفاعل</span>
+              </div>
+
+              <div class="pipe-arrow-rtl">←</div>
+
+              <div class="pipe-node n6 golden-node">
+                <span class="node-seq">❤️</span>
+                <span class="node-title">علاقة أقوى</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           المشهد 8 (01:12 — 01:15): الشاشة الختامية وشعار رَدّ
+           ================================================================= -->
+      <section class="scene-layer" id="scene8" data-scene="8">
+        <div class="scene-bg-gradient climax-gradient"></div>
+
+        <div class="scene-inner flex-center">
+          <div class="brand-climax-showcase animate-scale-in">
+            <blockquote class="climax-manifesto-text">
+              «إذا لم تستطع أن تكون حاضرًا الآن…<br>
+              <strong>لا تجعل فرصة التواصل تختفي.</strong>»
+            </blockquote>
+
+            <div class="climax-brand-block">
+              <div class="brand-symbol-circle">
+                <svg viewBox="0 0 80 80" width="68" height="68">
+                  <circle cx="40" cy="40" r="36" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" stroke-dasharray="5 5"/>
+                  <path d="M28 40 C28 30, 52 30, 52 40 C52 50, 34 50, 34 44" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+                  <polyline points="30,39 34,46 41,43" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="52" cy="40" r="4" fill="#A29BFE"/>
+                </svg>
+              </div>
+              <h1 class="climax-title-arabic">RADD | رَدّ</h1>
+              <p class="climax-tagline-text">فرصة ثانية للتواصل</p>
+            </div>
+
+            <div class="climax-footer-label">
+              مشروع ابتكار اجتماعي وتقني • المملكة العربية السعودية 🇸🇦
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Minimal Subtitle Overlay Strip (Driven by master timeline) -->
+      <div class="cinema-subtitle-strip" id="subtitleStrip">
+        <span class="subtitle-text" id="subtitleText">بعض اللحظات لا تضيع لأننا لا نهتم... بل لأننا لم نستطع الرد في وقتها.</span>
+      </div>
+
+    </div><!-- /cinema-frame -->
+
+    <!-- =================================================================
+         Professional Cinema Controls Dock (Non-intrusive)
+         ================================================================= -->
+    <div class="cinema-controls-dock" id="controlsDock">
+      <!-- Scrubbable Progress Bar -->
+      <div class="progress-bar-wrapper" id="progressWrapper" title="اسحب أو انقر للتنقل في التايم لاين">
+        <div class="progress-fill-rtl" id="progressFill"></div>
+        <div class="timeline-scene-notches" id="sceneNotches"></div>
+      </div>
+
+      <div class="dock-controls-row">
+        <!-- Play / Pause / Replay / Time -->
+        <div class="ctrl-group left-group">
+          <button class="btn-dock-icon" id="playPauseBtn" title="تشغيل / إيقاف مؤقت (المسافة)">
+            <span class="dock-icon" id="playIcon">▶</span>
+          </button>
+          <button class="btn-dock-icon" id="restartBtn" title="إعادة تشغيل من البداية">
+            <span class="dock-icon">↺</span>
+          </button>
+          
+          <div class="time-readout" id="timeReadout">00:00 / 01:15</div>
+        </div>
+
+        <!-- Direct Scene Quick Jump Tabs -->
+        <div class="scene-tabs-bar" id="sceneTabsBar">
+          <button class="scene-nav-tab active" data-target="1">١. البداية</button>
+          <button class="scene-nav-tab" data-target="2">٢. المشكلة</button>
+          <button class="scene-nav-tab" data-target="3">٣. فرصة تواصل</button>
+          <button class="scene-nav-tab" data-target="4">٤. حفظ الفرصة</button>
+          <button class="scene-nav-tab" data-target="5">٥. استعادة اللحظة</button>
+          <button class="scene-nav-tab" data-target="6">٦. القياس</button>
+          <button class="scene-nav-tab" data-target="7">٧. المسار</button>
+          <button class="scene-nav-tab" data-target="8">٨. الختام</button>
+        </div>
+
+        <!-- Volume / Mute / Fullscreen -->
+        <div class="ctrl-group right-group">
+          <div class="volume-control-box">
+            <button class="btn-dock-icon" id="muteBtn" title="كتم / تفعيل الصوت">
+              <span class="dock-icon" id="volumeIcon">🔊</span>
+            </button>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1" title="مستوى الصوت">
+          </div>
+
+          <button class="btn-dock-icon" id="dockFullscreenBtn" title="ملء الشاشة">
+            <span class="dock-icon">⛶</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- =================================================================
+       Jury Project Documentation Drawer (Overlay)
+       ================================================================= -->
+  <aside class="jury-drawer" id="juryDrawer">
+    <div class="drawer-header">
+      <div>
+        <h3>📋 وثيقة الإنتاج الفني لـ Pitch مشروع «رَدّ | RADD»</h3>
+        <p class="drawer-sub">معدّة خصيصاً للجنة تحكيم الابتكار الاجتماعي والتقني</p>
+      </div>
+      <button class="btn-close-drawer" id="closeDrawerBtn">✕</button>
+    </div>
+
+    <div class="drawer-scroll-body">
+      <div class="doc-section-card">
+        <h4>🎯 جوهر الفكرة والتمايز السلوكي</h4>
+        <p>
+          المشكلة الحقيقية في الأسرة ليست مجرد عدد ساعات استخدام الهاتف، بل هي <strong>«ضياع لحظة المحاولة»</strong> عندما يطلب أحد أفراد الأسرة تواصلاً في لحظة انشغال الطرف الآخر، فيُقال «بعد شوي» وتتلاشى اللحظة دون عودة.
+        </p>
+        <p>
+          نظام <strong>RADD</strong> لا يحارب الأجهزة ولا يلوم الوالد، بل يحفظ نية التواصل الصادقة ويعيدها كفرصة ثانية للتواصل في الوقت الملائم.
+        </p>
+      </div>
+
+      <div class="doc-section-card ethics-box">
+        <h4>🛡️ الالتزام الأخلاقي ومحددات الأمان المعتمدة</h4>
+        <ul>
+          <li>✓ <strong>بدون مراقبة:</strong> لا تسجيل صوتي، لا كاميرا، ولا قراءة رسائل خاصة.</li>
+          <li>✓ <strong>التقنية أداة وليست عدواً:</strong> لا لوم ولا تخويف للوالد.</li>
+          <li>✓ <strong>نظام غير تقييمي:</strong> لا توجد درجات تصنيفية لكفاءة الأبوة، بل قياس لاستمرارية التواصل فقط.</li>
+          <li>✓ <strong>بيانات تجريبية واضحة:</strong> لا يتم ادعاء أي نتائج ميدانية غير مثبتة.</li>
+        </ul>
+      </div>
+
+      <div class="doc-section-card">
+        <h4>⏱️ التايم لاين التنفيذي (75 ثانية)</h4>
+        <ul class="timeline-summary-list">
+          <li><strong>00:00 — 00:11 (المشهد 1):</strong> البداية الإنسانية في المنزل السعودي ومحاولة الطفل.</li>
+          <li><strong>00:11 — 00:22 (المشهد 2):</strong> تشريح المشكلة وتراكم «بعد شوي».</li>
+          <li><strong>00:22 — 00:34 (المشهد 3):</strong> ظهور واجهة RADD ومفهوم «فرصة تواصل».</li>
+          <li><strong>00:34 — 00:46 (المشهد 4):</strong> حفظ الفرصة والتذكير الهادئ دون مراقبة.</li>
+          <li><strong>00:46 — 00:57 (المشهد 5):</strong> استعادة اللحظة ووضع الهاتف جانباً.</li>
+          <li><strong>00:57 — 01:05 (المشهد 6):</strong> مؤشرات النموذج الأولي التجريبي.</li>
+          <li><strong>01:05 — 01:12 (المشهد 7):</strong> مسار التواصل الأسري من اليمين إلى اليسار (RTL).</li>
+          <li><strong>01:12 — 01:15 (المشهد 8):</strong> الختام وشعار RADD — فرصة ثانية للتواصل.</li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Scripts -->
+  <script src="audioController.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
