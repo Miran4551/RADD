@@ -206,7 +206,7 @@ button:focus-visible{outline:3px solid #8d82ff55;outline-offset:3px}
   }
 
   function closeModal(){overlay.innerHTML="";}
-  function reset(){moments=seed.map(function(x){return Object.assign({},x,_justCreated?{_justCreated:false}:{});});persist();role="parent";render();toast("تمت إعادة السيناريو");}
+  function reset(){moments=seed.map(function(x){return Object.assign({},x,{_justCreated:false});});persist();role="parent";render();toast("تمت إعادة السيناريو");}
   document.getElementById("parentTab").onclick=function(){role="parent";render();};
   document.getElementById("childTab").onclick=function(){role="child";render();};
   render();
