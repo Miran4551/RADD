@@ -1,411 +1,305 @@
-/**
- * RADD | رَدّ — Master Timeline Runtime Engine
- * يعتمد كلياً على التايم لاين والمصدر الصوتي المركزي: AudioController
- * زمن العرض: 75 ثانية موزعة على 8 مشاهد متسلسلة بدقة سينمائية
- */
+(() => {
+  const STORAGE_KEY = 'radd_demo_state_v2';
+  const CHANNEL_NAME = 'radd-family-demo';
+  const channel = 'BroadcastChannel' in window ? new BroadcastChannel(CHANNEL_NAME) : null;
 
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. تعريف التايم لاين الرئيسي الشامل
-  const TOTAL_DURATION = 75.0; // 75 ثانية
+  const typeMeta = {
+    show: {label:'أريد أن أريه شيئًا', short:'يريد أن يريك شيئًا', sample:'بابا.. شوف رسمتي!'},
+    talk: {label:'أريد أن أتحدث معه', short:'يريد أن يتحدث معك', sample:'بابا، عندي شيء أريد أقوله لك.'},
+    help: {label:'أحتاج مساعدته', short:'يحتاج مساعدتك', sample:'بابا، ممكن تساعدني؟'},
+    share: {label:'أريد أن أشاركه شيئًا', short:'يريد أن يشاركك شيئًا', sample:'بابا، عندي خبر حلو!'}
+  };
 
-  const timeline = [
-    {
-      id: 1,
-      name: "البداية الإنسانية",
-      start: 0.0,
-      end: 11.0,
-      image: "assets/images/scene1.jpg",
-      audioSchedule: [
-        { id: "child_call", start: 0.6, end: 4.0 },
-        { id: "father_later", start: 4.1, end: 6.3 },
-        { id: "intro_narrator", start: 6.5, end: 11.0 }
-      ],
-      subtitle: "بعض اللحظات لا تضيع لأننا لا نهتم... بل لأننا لم نستطع الرد في وقتها.",
-      dialogueTriggers: [
-        { elementId: 'chipChild1', time: 0.6 },
-        { elementId: 'chipFather1', time: 4.1 }
-      ]
-    },
-    {
-      id: 2,
-      name: "جوهر المشكلة",
-      start: 11.0,
-      end: 22.0,
-      image: "assets/images/scene2.jpg",
-      audioSchedule: [
-        { id: "problem_narrator", start: 11.2, end: 22.0 }
-      ],
-      subtitle: "المشكلة ليست مجرد شاشة هاتف. المشكلة: ماذا يحدث للتفاعل بعد أن يتعذر الرد؟",
-      dialogueTriggers: []
-    },
-    {
-      id: 3,
-      name: "فرصة تواصل",
-      start: 22.0,
-      end: 34.0,
-      image: null,
-      audioSchedule: [], // الصوت متزامن ومخصص لظهور الواجهة دون أصوات اصطناعية إضافية
-      subtitle: "فرصة تواصل — حفظ محاولة التواصل بلمسة واحدة تصون الود.",
-      dialogueTriggers: []
-    },
-    {
-      id: 4,
-      name: "حفظ الفرصة دون مراقبة",
-      start: 34.0,
-      end: 46.0,
-      image: null,
-      audioSchedule: [
-        { id: "privacy_narrator", start: 34.5, end: 46.0 }
-      ],
-      subtitle: "رَدّ لا يراقب الأسرة، لا يسجل صوتاً ولا يفتح كاميرا.. بل يساعدها على تذكّر العودة.",
-      dialogueTriggers: []
-    },
-    {
-      id: 5,
-      name: "استعادة اللحظة",
-      start: 46.0,
-      end: 57.0,
-      image: "assets/images/scene5.jpg",
-      audioSchedule: [
-        { id: "father_restore", start: 46.5, end: 49.5 }
-        /*
-          ======================================================================
-          TODO: إضافة ملف صوت الطفل الثاني لاحقًا:
-          العبارة: "رسمت بيتنا... وإحنا كلنا مع بعض!"
-          الملف الصوتي المستقبلي: assets/audio/رسمت_بيتنا.mp3
-          نقطة البدء المقترحة: 49.6s إلى 53.0s
-          ملاحظة: حاليًا تُعرض العبارة بصريًا على الشاشة بدقة دون كسر التزامن الزمني.
-          ======================================================================
-        */
-      ],
-      subtitle: "التفاعل الذي كان معرضًا للضياع… عاد من جديد.",
-      dialogueTriggers: [
-        { elementId: 'chipFather5', time: 46.5 },
-        { elementId: 'chipChild5', time: 49.5 }
-      ]
-    },
-    {
-      id: 6,
-      name: "القياس الإيجابي",
-      start: 57.0,
-      end: 65.0,
-      image: null,
-      audioSchedule: [],
-      subtitle: "رَدّ لا يقيس جودة الوالد… بل يقيس استمرارية التواصل (بيانات تجريبية للنموذج الأولي).",
-      dialogueTriggers: []
-    },
-    {
-      id: 7,
-      name: "مسار التواصل الأسري",
-      start: 65.0,
-      end: 72.0,
-      image: "assets/images/scene7.jpg",
-      audioSchedule: [],
-      subtitle: "مسار التواصل الأسري: محاولة تواصل ← تعذر الرد ← حفظ الفرصة ← العودة ← استعادة التفاعل ← علاقة أقوى.",
-      dialogueTriggers: []
-    },
-    {
-      id: 8,
-      name: "فرصة ثانية للتواصل",
-      start: 72.0,
-      end: 75.0,
-      image: null,
-      audioSchedule: [],
-      subtitle: "إذا لم تستطع أن تكون حاضرًا الآن… لا تجعل فرصة التواصل تختفي. رَدّ | فرصة ثانية للتواصل.",
-      dialogueTriggers: []
-    }
-  ];
+  const els = {
+    interactionTypes: document.getElementById('interactionTypes'),
+    childMessage: document.getElementById('childMessage'),
+    send: document.getElementById('sendOpportunityBtn'),
+    childDelivery: document.getElementById('childDeliveryState'),
+    opportunityCard: document.getElementById('opportunityCard'),
+    returnActions: document.getElementById('returnActions'),
+    returnNow: document.getElementById('returnNowBtn'),
+    reminderCard: document.getElementById('reminderCard'),
+    reminderText: document.getElementById('reminderText'),
+    demoRemind: document.getElementById('demoRemindBtn'),
+    recoveryCard: document.getElementById('recoveryCard'),
+    recoveryText: document.getElementById('recoveryText'),
+    badge: document.getElementById('notificationBadge'),
+    liveStatus: document.getElementById('liveStatusText'),
+    liveSub: document.getElementById('liveStatusSubtext'),
+    statusIcon: document.getElementById('statusIcon'),
+    recoveredCount: document.getElementById('recoveredCount'),
+    unrecoveredCount: document.getElementById('unrecoveredCount'),
+    avgLatency: document.getElementById('avgLatency'),
+    toast: document.getElementById('toast'),
+    reset: document.getElementById('resetDemoBtn'),
+    help: document.getElementById('helpBtn'),
+    modal: document.getElementById('helpModal'),
+    closeModal: document.getElementById('closeHelpBtn')
+  };
 
-  // 2. تهيئة متحكم الصوت المركزي
-  const audioCtrl = new window.AudioController();
+  let selectedType = 'show';
+  let state = loadState();
 
-  // 3. حالة المشغل
-  let currentTime = 0.0;
-  let isPlaying = false;
-  let animationFrameId = null;
-  let lastTimestamp = null;
-
-  // 4. عناصر واجهة المستخدم
-  const cinemaFrame = document.getElementById('cinemaFrame');
-  const sceneLayers = document.querySelectorAll('.scene-layer');
-  const sceneTabs = document.querySelectorAll('.scene-nav-tab');
-  const subtitleText = document.getElementById('subtitleText');
-  const progressFill = document.getElementById('progressFill');
-  const progressWrapper = document.getElementById('progressWrapper');
-  const timeReadout = document.getElementById('timeReadout');
-  const playPauseBtn = document.getElementById('playPauseBtn');
-  const playIcon = document.getElementById('playIcon');
-  const restartBtn = document.getElementById('restartBtn');
-  const muteBtn = document.getElementById('muteBtn');
-  const volumeIcon = document.getElementById('volumeIcon');
-  const volumeSlider = document.getElementById('volumeSlider');
-  const fullscreenBtn = document.getElementById('fullscreenBtn');
-  const dockFullscreenBtn = document.getElementById('dockFullscreenBtn');
-  const openDocsBtn = document.getElementById('openDocsBtn');
-  const juryDrawer = document.getElementById('juryDrawer');
-  const closeDrawerBtn = document.getElementById('closeDrawerBtn');
-  const btnSaveOpportunity = document.getElementById('btnSaveOpportunity');
-  const ambientGlow = document.getElementById('ambientGlow');
-
-  // إنشاء علامات المشاهد على شريط التقدم
-  const sceneNotches = document.getElementById('sceneNotches');
-  if (sceneNotches) {
-    sceneNotches.innerHTML = '';
-    timeline.forEach(sc => {
-      const notch = document.createElement('div');
-      notch.className = 'scene-notch';
-      // RTL: right offset
-      const rightPercent = (sc.start / TOTAL_DURATION) * 100;
-      notch.style.cssText = `position: absolute; right: ${rightPercent}%; top: -2px; width: 2px; height: 11px; background: rgba(255,255,255,0.25); pointer-events: none;`;
-      sceneNotches.appendChild(notch);
-    });
-  }
-
-  /**
-   * استخراج المشهد النشط بناءً على الوقت الحالي
-   */
-  function getCurrentScene(time) {
-    for (let i = 0; i < timeline.length; i++) {
-      if (time >= timeline[i].start && time < timeline[i].end) {
-        return timeline[i];
-      }
-    }
-    return timeline[timeline.length - 1];
-  }
-
-  /**
-   * تحديث الحالة المرئية والصوتية للتوقيت الحالي
-   */
-  function render(time) {
-    const activeScene = getCurrentScene(time);
-
-    // 1. تحديث طبقات المشاهد النشطة
-    sceneLayers.forEach(layer => {
-      const sceneNum = parseInt(layer.dataset.scene, 10);
-      if (sceneNum === activeScene.id) {
-        layer.classList.add('active');
-      } else {
-        layer.classList.remove('active');
-      }
-    });
-
-    // 2. تحديث تبويبات المشاهد
-    sceneTabs.forEach(tab => {
-      const targetNum = parseInt(tab.dataset.target, 10);
-      tab.classList.toggle('active', targetNum === activeScene.id);
-    });
-
-    // 3. تحديث شريط الترجمة/النص
-    if (subtitleText && activeScene.subtitle) {
-      subtitleText.textContent = activeScene.subtitle;
-    }
-
-    // 4. تحديث حوارات المشهد المتزامنة
-    timeline.forEach(sc => {
-      if (sc.dialogueTriggers) {
-        sc.dialogueTriggers.forEach(trig => {
-          const el = document.getElementById(trig.elementId);
-          if (el) {
-            if (time >= trig.time && sc.id === activeScene.id) {
-              el.classList.add('visible');
-            } else {
-              el.classList.remove('visible');
-            }
-          }
-        });
-      }
-    });
-
-    // 5. مزامنة الصوت عبر AudioController
-    audioCtrl.syncWithTimeline(time, activeScene.audioSchedule, isPlaying);
-
-    // 6. تحديث شريط التقدم (RTL: تعبئة من اليمين)
-    const percent = Math.min((time / TOTAL_DURATION) * 100, 100);
-    progressFill.style.width = `${percent}%`;
-
-    // 7. تحديث عداد الوقت
-    const formatTime = (sec) => {
-      const m = Math.floor(sec / 60).toString().padStart(2, '0');
-      const s = Math.floor(sec % 60).toString().padStart(2, '0');
-      return `${m}:${s}`;
+  function defaultState() {
+    return {
+      familyCode: 'RADD-2841',
+      status: 'idle',
+      opportunity: null,
+      history: [],
+      scheduledFor: null
     };
-    timeReadout.textContent = `${formatTime(time)} / ${formatTime(TOTAL_DURATION)}`;
+  }
 
-    // 8. لمسات إضاءة ناعمة متجاوبة مع المشهد
-    if (activeScene.id === 3 || activeScene.id === 4) {
-      ambientGlow.style.background = 'radial-gradient(circle, rgba(108, 92, 231, 0.16) 0%, rgba(162, 155, 254, 0.05) 50%, transparent 70%)';
-    } else if (activeScene.id === 5 || activeScene.id === 7) {
-      ambientGlow.style.background = 'radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(245, 158, 11, 0.06) 50%, transparent 70%)';
-    } else {
-      ambientGlow.style.background = 'radial-gradient(circle, rgba(108, 92, 231, 0.09) 0%, rgba(245, 158, 11, 0.03) 45%, transparent 70%)';
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultState();
+    } catch {
+      return defaultState();
     }
   }
 
-  /**
-   * حلقة التحديث الزمني المستمر
-   */
-  function tick(timestamp) {
-    if (!isPlaying) return;
+  function saveState(next, announce = true) {
+    state = next;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    if (announce && channel) channel.postMessage({ type:'state', state });
+    render();
+  }
 
-    if (!lastTimestamp) lastTimestamp = timestamp;
-    const delta = (timestamp - lastTimestamp) / 1000.0;
-    lastTimestamp = timestamp;
+  function reset() {
+    saveState(defaultState());
+    els.childMessage.value = '';
+    selectedType = 'show';
+    document.querySelectorAll('.interaction-type').forEach((btn,i)=>btn.classList.toggle('active',i===0));
+    toast('تمت إعادة التجربة إلى الحالة الأولى.');
+  }
 
-    currentTime += delta;
+  function toast(message) {
+    els.toast.textContent = message;
+    els.toast.classList.remove('hidden');
+    clearTimeout(window.__raddToast);
+    window.__raddToast = setTimeout(()=>els.toast.classList.add('hidden'), 2600);
+  }
 
-    if (currentTime >= TOTAL_DURATION) {
-      currentTime = TOTAL_DURATION;
-      pause();
-      render(currentTime);
+  function fmtTime(ms) {
+    if (!ms) return '—';
+    const sec = Math.max(0, Math.round(ms/1000));
+    if (sec < 60) return sec + ' ث';
+    const min = Math.round(sec/60);
+    return min + ' د';
+  }
+
+  function selectedMessage() {
+    return (els.childMessage.value || '').trim() || typeMeta[selectedType].sample;
+  }
+
+  function sendOpportunity() {
+    const now = Date.now();
+    const opportunity = {
+      id: 'opp-' + now,
+      sender: 'محمد',
+      type: selectedType,
+      typeLabel: typeMeta[selectedType].short,
+      message: selectedMessage(),
+      createdAt: now,
+      deliveredAt: now
+    };
+    saveState({
+      ...state,
+      status: 'waiting_parent',
+      opportunity,
+      scheduledFor: null
+    });
+    toast('تم إرسال فرصة التواصل إلى جهاز الأب.');
+  }
+
+  function returnNow() {
+    if (!state.opportunity) return;
+    const now = Date.now();
+    const historyItem = {
+      ...state.opportunity,
+      returnedAt: now,
+      latencyMs: now - state.opportunity.createdAt
+    };
+    saveState({
+      ...state,
+      status: 'recovered',
+      history: [...state.history, historyItem],
+      scheduledFor: null
+    });
+    toast('عاد الأب إلى فرصة التواصل ❤️');
+  }
+
+  function scheduleReturn(choice) {
+    if (!state.opportunity) return;
+    const now = Date.now();
+    const mins = choice === 'end' ? null : Number(choice);
+    const scheduledFor = mins ? now + mins*60*1000 : null;
+
+    saveState({
+      ...state,
+      status: 'scheduled',
+      scheduledFor
+    });
+
+    toast(choice === 'end'
+      ? 'حُفظت الفرصة إلى أن ينتهي الأب من انشغاله.'
+      : 'حُفظت الفرصة وسيأتي التذكير في الوقت المحدد.');
+  }
+
+  function demoReminder() {
+    if (!state.opportunity || state.status !== 'scheduled') return;
+    saveState({...state, status:'reminder_due'});
+    toast('حان الآن وقت التذكير التجريبي.');
+  }
+
+  function openModal(){ els.modal.classList.remove('hidden'); }
+  function closeModal(){ els.modal.classList.add('hidden'); }
+
+  function renderChild() {
+    const status = state.status;
+    if (status === 'idle') {
+      els.childDelivery.className = 'delivery-state idle-state';
+      els.childDelivery.innerHTML = '<div class="state-icon">○</div><div><strong>لم تُرسل فرصة بعد</strong><span>عندما ترسل، ستظهر فورًا في جهاز الأب في هذه التجربة.</span></div>';
       return;
     }
 
-    render(currentTime);
-    animationFrameId = requestAnimationFrame(tick);
-  }
-
-  /**
-   * تشغيل العرض
-   */
-  function play() {
-    isPlaying = true;
-    playIcon.textContent = '⏸';
-    lastTimestamp = null;
-    animationFrameId = requestAnimationFrame(tick);
-  }
-
-  /**
-   * إيقاف مؤقت
-   */
-  function pause() {
-    isPlaying = false;
-    playIcon.textContent = '▶';
-    if (animationFrameId) {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = null;
+    if (status === 'waiting_parent') {
+      els.childDelivery.className = 'delivery-state sent';
+      els.childDelivery.innerHTML = '<div class="state-icon">✓</div><div><strong>تم التسليم للأب</strong><span>رَدّ حفظ فرصة التواصل وأظهرها الآن في صندوق الأب.</span></div>';
+      return;
     }
-    lastTimestamp = null;
-    audioCtrl.pauseAll();
+
+    if (status === 'scheduled') {
+      els.childDelivery.className = 'delivery-state sent';
+      els.childDelivery.innerHTML = '<div class="state-icon">⏳</div><div><strong>الأب اختار العودة لاحقًا</strong><span>لم تختفِ اللحظة؛ بقيت محفوظة حتى وقت العودة.</span></div>';
+      return;
+    }
+
+    if (status === 'reminder_due' || status === 'recovered') {
+      els.childDelivery.className = 'delivery-state sent';
+      els.childDelivery.innerHTML = status === 'recovered'
+        ? '<div class="state-icon">♥</div><div><strong>رجع أبي للتواصل</strong><span>تمت استعادة فرصة التواصل وتسجيل لحظة العودة.</span></div>'
+        : '<div class="state-icon">🔔</div><div><strong>حان وقت العودة</strong><span>رَدّ نبّه الأب لأن فرصة محمد ما زالت محفوظة.</span></div>';
+    }
   }
 
-  /**
-   * تبديل التشغيل / الإيقاف
-   */
-  function togglePlay() {
-    if (isPlaying) {
-      pause();
+  function renderParent() {
+    const opp = state.opportunity;
+    const active = !!opp && ['waiting_parent','scheduled','reminder_due'].includes(state.status);
+
+    els.badge.textContent = state.status === 'waiting_parent' ? '1' : '0';
+
+    if (!opp) {
+      els.opportunityCard.className = 'opportunity-card empty-opportunity';
+      els.opportunityCard.innerHTML = '<div class="empty-state"><div class="empty-illustration">💜</div><strong>لا توجد فرصة جديدة</strong><span>عندما يرسل محمد فرصة، ستظهر هنا مع تنبيه واضح.</span></div>';
+      els.returnActions.classList.add('hidden');
+      els.reminderCard.classList.add('hidden');
+      els.recoveryCard.classList.add('hidden');
+      return;
+    }
+
+    if (active) {
+      const meta = typeMeta[opp.type] || typeMeta.show;
+      els.opportunityCard.className = 'opportunity-card pending';
+      els.opportunityCard.innerHTML = '<div class="opp-header"><span class="opp-label">🔔 فرصة تواصل جديدة</span><span class="opp-time">وصلت الآن</span></div>' +
+        '<div class="opp-person"><div class="opp-person-avatar">👦🏻</div><div><strong>محمد</strong><span>' + meta.short + '</span></div></div>' +
+        '<div class="opp-message">«' + escapeHtml(opp.message) + '»</div>' +
+        '<div class="opp-type-pill">نوع التفاعل: ' + meta.label + '</div>';
+      els.returnActions.classList.remove('hidden');
     } else {
-      if (currentTime >= TOTAL_DURATION) {
-        currentTime = 0.0;
-        audioCtrl.stopAll();
-      }
-      play();
+      els.returnActions.classList.add('hidden');
     }
-  }
 
-  /**
-   * إعادة التشغيل من البداية
-   */
-  function restart() {
-    pause();
-    currentTime = 0.0;
-    audioCtrl.stopAll();
-    render(0.0);
-    play();
-  }
-
-  /**
-   * القفز إلى وقت محدد (Seek)
-   */
-  function seekTo(targetTime) {
-    currentTime = Math.max(0.0, Math.min(TOTAL_DURATION, targetTime));
-    render(currentTime);
-  }
-
-  // أحداث أزرار التحكم
-  playPauseBtn.addEventListener('click', togglePlay);
-  restartBtn.addEventListener('click', restart);
-
-  // شريط التقدم التفاعلي (RTL: النقر من اليمين إلى اليسار)
-  progressWrapper.addEventListener('click', (e) => {
-    const rect = progressWrapper.getBoundingClientRect();
-    const clickFromRight = rect.right - e.clientX;
-    const ratio = Math.max(0, Math.min(1, clickFromRight / rect.width));
-    seekTo(ratio * TOTAL_DURATION);
-  });
-
-  // التنقل السريع بين المشاهد
-  sceneTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const targetNum = parseInt(tab.dataset.target, 10);
-      const targetScene = timeline.find(sc => sc.id === targetNum);
-      if (targetScene) {
-        seekTo(targetScene.start + 0.05);
-      }
-    });
-  });
-
-  // التحكم بالصوت والكتم
-  muteBtn.addEventListener('click', () => {
-    const isMuted = audioCtrl.toggleMute();
-    volumeIcon.textContent = isMuted ? '🔇' : '🔊';
-  });
-
-  volumeSlider.addEventListener('input', (e) => {
-    const val = parseFloat(e.target.value);
-    audioCtrl.setVolume(val);
-    volumeIcon.textContent = val === 0 ? '🔇' : '🔊';
-  });
-
-  // ملء الشاشة
-  function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      cinemaFrame.requestFullscreen().catch(err => {
-        console.warn(`Fullscreen error: ${err.message}`);
-      });
+    if (state.status === 'scheduled') {
+      els.reminderCard.classList.remove('hidden');
+      els.reminderText.textContent = state.scheduledFor
+        ? 'سيذكّرك رَدّ بالعودة إلى فرصة محمد. موعد التذكير: ' + new Date(state.scheduledFor).toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'})
+        : 'ستظل الفرصة محفوظة حتى ينتهي الأب من انشغاله.';
     } else {
-      document.exitFullscreen();
+      els.reminderCard.classList.add('hidden');
+    }
+
+    if (state.status === 'recovered') {
+      els.recoveryCard.classList.remove('hidden');
+      const latest = state.history[state.history.length - 1];
+      els.recoveryText.textContent = latest ? 'تمت العودة بعد ' + fmtTime(latest.latencyMs) + ' من إنشاء الفرصة.' : 'عاد الأب إلى فرصة التواصل.';
+    } else {
+      els.recoveryCard.classList.add('hidden');
     }
   }
 
-  if (fullscreenBtn) fullscreenBtn.addEventListener('click', toggleFullscreen);
-  if (dockFullscreenBtn) dockFullscreenBtn.addEventListener('click', toggleFullscreen);
+  function renderStatus() {
+    const messages = {
+      idle: ['◌','بانتظار أول فرصة تواصل','هذه الشاشة توضّح كيف تنتقل الفرصة من الطفل إلى الأب.'],
+      waiting_parent: ['!','تم إرسال فرصة التواصل إلى الأب','يمكن للأب الآن اختيار العودة فورًا أو حفظها لوقت مناسب.'],
+      scheduled: ['⏳','تم حفظ فرصة التواصل للعودة لاحقًا','الفرصة لم تختفِ؛ بقيت مرتبطة بالأب حتى وقت العودة.'],
+      reminder_due: ['🔔','حان وقت العودة إلى محمد','ظهر التذكير لأن فرصة التواصل ما زالت بحاجة إلى إغلاق حلقتها.'],
+      recovered: ['♥','تمت استعادة فرصة التواصل','هذه هي اللحظة التي يقيسها رَدّ: هل عادت فرصة التواصل فعلًا؟']
+    };
+    const msg = messages[state.status] || messages.idle;
+    els.statusIcon.textContent = msg[0];
+    els.liveStatus.textContent = msg[1];
+    els.liveSub.textContent = msg[2];
 
-  // نافذة وثائق التحكيم
-  if (openDocsBtn) {
-    openDocsBtn.addEventListener('click', () => {
-      juryDrawer.classList.toggle('open');
+    const recovered = state.history.length;
+    const unrecovered = state.history.filter(x => !x.returnedAt).length;
+    const avg = recovered ? Math.round(state.history.reduce((s,x)=>s+x.latencyMs,0)/recovered) : null;
+    els.recoveredCount.textContent = recovered;
+    els.unrecoveredCount.textContent = unrecovered;
+    els.avgLatency.textContent = avg ? fmtTime(avg) : '—';
+  }
+
+  function render() {
+    renderChild();
+    renderParent();
+    renderStatus();
+  }
+
+  function escapeHtml(value) {
+    return value.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+  }
+
+  document.querySelectorAll('.interaction-type').forEach(btn => {
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.interaction-type').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedType = btn.dataset.type;
+    });
+  });
+
+  els.send.addEventListener('click', sendOpportunity);
+  els.returnNow.addEventListener('click', returnNow);
+  document.querySelectorAll('.later-row button').forEach(btn=>{
+    btn.addEventListener('click',()=>scheduleReturn(btn.dataset.delay));
+  });
+  els.demoRemind.addEventListener('click', demoReminder);
+  els.reset.addEventListener('click', reset);
+  els.help.addEventListener('click', openModal);
+  els.closeModal.addEventListener('click', closeModal);
+  els.modal.addEventListener('click', e=>{if(e.target===els.modal)closeModal()});
+
+  if (channel) {
+    channel.addEventListener('message', e => {
+      if (e.data?.type === 'state' && e.data.state) {
+        state = e.data.state;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        render();
+      }
     });
   }
 
-  if (closeDrawerBtn) {
-    closeDrawerBtn.addEventListener('click', () => {
-      juryDrawer.classList.remove('open');
-    });
-  }
-
-  // تجربة زر حفظ فرصة التواصل داخل الهاتف التفاعلي
-  if (btnSaveOpportunity) {
-    btnSaveOpportunity.addEventListener('click', () => {
-      btnSaveOpportunity.style.background = 'linear-gradient(135deg, #10B981, #059669)';
-      btnSaveOpportunity.innerHTML = '<span>✓</span> <span>تم حفظ فرصة التواصل</span>';
-      setTimeout(() => {
-        btnSaveOpportunity.style.background = 'linear-gradient(135deg, #6C5CE7, #533FE6)';
-        btnSaveOpportunity.innerHTML = '<span class="action-icon">💾</span> <span>حفظ فرصة التواصل</span>';
-      }, 2400);
-    });
-  }
-
-  // اختصارات لوحة المفاتيح: المسافة للتشغيل والإيقاف، F لملء الشاشة
-  document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
-      e.preventDefault();
-      togglePlay();
-    } else if (e.code === 'KeyF') {
-      toggleFullscreen();
+  window.addEventListener('storage', e => {
+    if (e.key === STORAGE_KEY && e.newValue) {
+      try { state = JSON.parse(e.newValue); render(); } catch {}
     }
   });
 
-  // الرندرة الأولية عند التحميل
-  render(0.0);
-});
+  setInterval(()=>{
+    if (state.status === 'scheduled' && state.scheduledFor && Date.now() >= state.scheduledFor) {
+      saveState({...state, status:'reminder_due'});
+      toast('حان الآن وقت العودة إلى فرصة التواصل.');
+    }
+  },1000);
+
+  render();
+})();
